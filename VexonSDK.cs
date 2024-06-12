@@ -7,6 +7,8 @@ namespace VexonSDK
     {
         [DllImport("__Internal")]
         private static extern void GameReady();
+        [DllImport("__Internal")]
+        private static extern void Ad(string type, Action callback);
 
         public static void Ready()
         {
@@ -14,6 +16,15 @@ namespace VexonSDK
             GameReady();
 #else
             Debug.Log("VexonSDK: GameReady");
+#endif
+        }
+
+        public static void AdBreak(string type, Action callback)
+        {
+#if UNITY_WEBGL && !UNITY_EDITOR
+            Ad(type, callback);
+#else
+            Debug.Log($"VexonSDK: AdBreak {type}");
 #endif
         }
     }
